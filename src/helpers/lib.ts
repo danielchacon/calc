@@ -1,4 +1,6 @@
-export const cards = [
+import { type Card } from "@/types/all";
+
+export const cards: Card[] = [
   {
     name: "A",
     value: 14,
