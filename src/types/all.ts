@@ -10,3 +10,16 @@ export interface Hand {
   isSuited: boolean;
   power: number;
 }
+
+export enum Position {
+  UTG = "UTG",
+  MP = "MP",
+  LP = "LP",
+}
+
+export interface Range {
+  min: number;
+  max: number;
+  class: string;
+  position: Position;
+}
