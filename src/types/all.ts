@@ -1,5 +1,12 @@
 export interface Card {
   name: string;
-  value: number;
+  originalValue: number;
   formulaValue: number;
+}
+
+export interface Hand {
+  name: string;
+  cards: Card[];
+  isSuited: boolean;
+  power: number;
 }

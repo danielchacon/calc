@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import { cards } from "@/helpers/lib";
-import { type Card } from "@/types/all";
+import type { Card, Hand } from "@/types/all";
+import { getPower } from "@/helpers/calc";
 
 export const useAppStore = defineStore("app", () => {
   const firstCard = ref<Card>(cards[0]);
@@ -11,61 +12,9 @@ export const useAppStore = defineStore("app", () => {
   const bigBlind = ref<number>(50);
   const ante = ref<number>(0);
   const playersNumber = ref<number>(8);
+  const allHands = ref<Hand[]>([]);
 
-  function getPower(firstCard: Card, secondCard: Card, suited: boolean) {
-    if (!firstCard || !secondCard) {
-      return 0;
-    }
-
-    let power = 0;
-    let maxCard = null;
-    let minCard = null;
-
-    if (firstCard.formulaValue > secondCard.formulaValue) {
-      maxCard = firstCard;
-      minCard = secondCard;
-    } else {
-      maxCard = secondCard;
-      minCard = firstCard;
-    }
-
-    const isPair = firstCard.name === secondCard.name;
-
-    if (isPair) {
-      const multiplied = maxCard.formulaValue * 2;
-
-      if (multiplied < 5) {
-        power = 5;
-      } else {
-        power = multiplied;
-      }
-    } else {
-      let resultPower = maxCard.formulaValue;
-      const gap = maxCard.value - minCard.value - 1;
-
-      if (gap <= 2) {
-        resultPower -= gap;
-      } else if (gap === 3) {
-        resultPower -= 4;
-      } else if (gap >= 4) {
-        resultPower -= 5;
-      }
-
-      if (gap <= 1 && maxCard.value <= 11) {
-        resultPower += 1;
-      }
-
-      if (suited) {
-        resultPower += 2;
-      }
-
-      power = resultPower;
-    }
-
-    return power;
-  }
-
-  const mValue = computed(() => {
+  const mValue = computed<number>(() => {
     const result =
       stack.value /
       (bigBlind.value / 2 + bigBlind.value + ante.value * playersNumber.value);
@@ -77,24 +26,89 @@ export const useAppStore = defineStore("app", () => {
     return Math.round(result);
   });
 
-  const handPower = computed<number>(() =>
-    getPower(firstCard.value, secondCard.value, isSuited.value)
+  const currentHandSorted = computed<Card[]>(() => {
+    const hand = [firstCard.value, secondCard.value];
+
+    hand.sort((a, b) => b.originalValue - a.originalValue);
+
+    return hand;
+  });
+
+  const currentHandName = computed<string>(
+    () =>
+      `${currentHandSorted.value.map((card) => card.name).join("")}${
+        firstCard.value.originalValue !== secondCard.value.originalValue &&
+        isSuited.value
+          ? "s"
+          : ""
+      }`
   );
+
+  const currentHandPower = computed<number>(() => {
+    const hand = allHands.value.find(
+      (hand) => hand.name === currentHandName.value
+    );
+
+    return hand?.power || 0;
+  });
 
   const UPDATE_IS_SUITED = (payload: boolean) => {
     isSuited.value = payload;
+  };
+
+  const INIT_ALL_HANDS = (): void => {
+    if (localStorage.allHands) {
+      allHands.value = JSON.parse(localStorage.allHands);
+
+      return;
+    }
+
+    for (const firstCard of cards) {
+      for (const secondCard of cards) {
+        if (secondCard.originalValue <= firstCard.originalValue) {
+          const cards = [firstCard, secondCard];
+          const nameBase = cards.map((item) => item.name).join("");
+
+          if (firstCard.originalValue === secondCard.originalValue) {
+            const hand: Hand = {
+              name: nameBase,
+              cards: cards,
+              isSuited: false,
+              power: getPower(firstCard, secondCard, false),
+            };
+
+            allHands.value.push(hand);
+          } else {
+            for (const isSuited of [false, true]) {
+              const hand: Hand = {
+                name: `${nameBase}${isSuited ? "s" : ""}`,
+                cards: cards,
+                isSuited,
+                power: getPower(firstCard, secondCard, isSuited),
+              };
+
+              allHands.value.push(hand);
+            }
+          }
+        }
+      }
+    }
+
+    localStorage.setItem("allHands", JSON.stringify(allHands.value));
   };
 
   return {
     firstCard,
     secondCard,
     isSuited,
-    handPower,
+    currentHandPower,
     stack,
     bigBlind,
     ante,
     playersNumber,
+    allHands,
     mValue,
     UPDATE_IS_SUITED,
+    INIT_ALL_HANDS,
   };
 });

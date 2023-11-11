@@ -1,5 +1,5 @@
 <template>
-  <section class="section has-background-success-light">
+  <section class="p-2">
     <div class="container">
       <table class="table">
         <thead>
@@ -10,7 +10,7 @@
         </thead>
         <tbody>
           <tr>
-            <td class="is-size-4">{{ store.handPower }}</td>
+            <td class="is-size-4">{{ store.currentHandPower }}</td>
             <td class="is-size-4">{{ store.mValue }}</td>
           </tr>
         </tbody>

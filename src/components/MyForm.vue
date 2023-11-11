@@ -1,7 +1,7 @@
 <template>
-  <section class="section">
-    <div class="container">
-      <div class="is-flex is-align-items-center mb-4">
+  <section>
+    <div class="container p-2">
+      <div class="is-flex is-align-items-center mb-2">
         <select class="select is-large mr-4" v-model="store.firstCard">
           <option
             v-for="card in cards"
@@ -28,7 +28,7 @@
           Одномастные
         </button>
       </div>
-      <div class="columns is-mobile">
+      <div class="columns is-mobile is-variable is-1">
         <div class="column">
           <div class="field">
             <label class="label">Стек</label>
@@ -45,8 +45,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="columns is-mobile">
         <div class="column">
           <div class="field">
             <label class="label">Анте</label>
