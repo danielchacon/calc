@@ -22,7 +22,7 @@
             <td
               v-for="hand in tableReadyHands?.[firstCard.name]"
               :key="`range-td-${hand.name}`"
-              :class="['has-text-centered', hand.positionClass]"
+              :class="['has-text-centered', hand.additionalClass]"
             >
               <div class="has-text-weight-bold">{{ hand.name }}</div>
               <div>{{ hand.power }}</div>
@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
 import { cards } from "@/helpers/lib";
-import { getPositionClassName } from "@/helpers/calc";
+import { getPositionClassName, getActionClassName } from "@/helpers/calc";
 import { useAppStore } from "@/store";
 import { computed } from "vue";
 import { Position, type Hand } from "@/types/all";
@@ -44,7 +44,7 @@ import { Position, type Hand } from "@/types/all";
 const store = useAppStore();
 
 interface TableHand extends Hand {
-  positionClass: string;
+  additionalClass: string;
 }
 
 const tableReadyHands = computed(() => {
@@ -63,19 +63,25 @@ const tableReadyHands = computed(() => {
 
       if (!hand || !hand.name) return;
 
-      const handToPositionPower = store.handToPositionPower.get(hand.name);
+      let additionalClass = "";
+
+      if (store.currentMZone.strategy.positionPower) {
+        const handToPositionPower = store.handToPositionPower.get(hand.name);
+
+        if (handToPositionPower) {
+          additionalClass = getPositionClassName(handToPositionPower.position);
+        }
+      } else if (store.currentMZone.strategy.actionPower) {
+        const handToActionPower = store.handToActionPower.get(hand.name);
+
+        if (handToActionPower) {
+          additionalClass = getActionClassName(handToActionPower.action);
+        }
+      }
 
       const tableHand: TableHand = {
         ...hand,
-        positionClass: handToPositionPower
-          ? `${
-              [Position.UTG, Position.MP].some(
-                (item) => item === handToPositionPower.position
-              )
-                ? "has-text-white"
-                : ""
-            } ${getPositionClassName(handToPositionPower.position)}`
-          : "",
+        additionalClass,
       };
 
       if (hands[firstCard.name]) {

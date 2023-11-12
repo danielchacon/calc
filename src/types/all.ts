@@ -17,15 +17,30 @@ export enum Position {
   LP = "LP",
 }
 
+export enum ActionName {
+  FOLD = "fold",
+  CALL = "call",
+  RAISE = "raise",
+  PUSH = "push",
+}
+
 export interface PositionPower {
   position: Position;
+  minHandPower: number;
+}
+
+export interface ActionPower {
+  action: ActionName;
   minHandPower: number;
 }
 
 export interface Zone {
   name: ZoneName;
   isInTheZone: (mValue: number) => boolean;
-  positionPower?: PositionPower[];
+  strategy: {
+    positionPower?: PositionPower[];
+    actionPower?: ActionPower[];
+  };
 }
 
 export interface Settings {

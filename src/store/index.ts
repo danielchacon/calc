@@ -6,6 +6,7 @@ import {
   type Hand,
   type Zone,
   type PositionPower,
+  type ActionPower,
 } from "@/types/all";
 import { getPower } from "@/helpers/calc";
 
@@ -65,8 +66,23 @@ export const useAppStore = defineStore("app", () => {
     for (const hand of allHands.value) {
       map.set(
         hand.name,
-        currentMZone.value.positionPower?.find(
+        currentMZone.value.strategy.positionPower?.find(
           (positionPowerItem) => hand.power >= positionPowerItem.minHandPower
+        )
+      );
+    }
+
+    return map;
+  });
+
+  const handToActionPower = computed<Map<string, ActionPower>>(() => {
+    const map = new Map();
+
+    for (const hand of allHands.value) {
+      map.set(
+        hand.name,
+        currentMZone.value.strategy.actionPower?.find(
+          (actionPowerItem) => hand.power >= actionPowerItem.minHandPower
         )
       );
     }
@@ -131,6 +147,7 @@ export const useAppStore = defineStore("app", () => {
     allHands,
     mValue,
     handToPositionPower,
+    handToActionPower,
     currentMZone,
     UPDATE_IS_SUITED,
     INIT_ALL_HANDS,

@@ -1,4 +1,4 @@
-import { type Card, Position, ZoneName } from "@/types/all";
+import { type Card, Position, ZoneName, ActionName } from "@/types/all";
 
 export const getPower = (
   firstCard: Card,
@@ -64,6 +64,16 @@ export const getPositionClassName = (position: Position): string => {
     return "has-text-white has-background-success";
   } else if (position === Position.LP) {
     return "has-background-warning";
+  }
+
+  return "";
+};
+
+export const getActionClassName = (actionName: ActionName): string => {
+  if (actionName === ActionName.RAISE) {
+    return "has-text-white has-background-link";
+  } else if (actionName === ActionName.CALL) {
+    return "has-text-white has-background-success";
   }
 
   return "";
