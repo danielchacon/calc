@@ -71,36 +71,6 @@
             </div>
           </div>
         </div>
-        <div class="control">
-          <label class="radio">
-            <input
-              v-model="store.position"
-              type="radio"
-              name="position"
-              :value="Position.UTG"
-              checked
-            />
-            UTG
-          </label>
-          <label class="radio">
-            <input
-              v-model="store.position"
-              type="radio"
-              name="position"
-              :value="Position.MP"
-            />
-            MP
-          </label>
-          <label class="radio">
-            <input
-              v-model="store.position"
-              type="radio"
-              name="position"
-              :value="Position.LP"
-            />
-            LP
-          </label>
-        </div>
       </div>
     </div>
   </section>
@@ -109,7 +79,6 @@
 <script setup lang="ts">
 import { cards } from "@/helpers/lib";
 import { useAppStore } from "@/store/index";
-import { Position } from "@/types/all";
 
 const store = useAppStore();
 

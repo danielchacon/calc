@@ -6,7 +6,6 @@ import {
   type Hand,
   type Zone,
   type PositionPower,
-  Position,
 } from "@/types/all";
 import { getPower } from "@/helpers/calc";
 
@@ -19,7 +18,6 @@ export const useAppStore = defineStore("app", () => {
   const ante = ref<number>(0);
   const playersNumber = ref<number>(8);
   const allHands = ref<Hand[]>([]);
-  const position = ref<Position>(Position.UTG);
 
   const mValue = computed<number>(() => {
     const result =
@@ -132,7 +130,6 @@ export const useAppStore = defineStore("app", () => {
     playersNumber,
     allHands,
     mValue,
-    position,
     handToPositionPower,
     currentMZone,
     UPDATE_IS_SUITED,
