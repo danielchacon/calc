@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
-import { cards, settings } from "@/helpers/lib";
+import { cards } from "@/helpers/lib";
+import { settings } from "@/settings";
 import {
   type Card,
   type Hand,

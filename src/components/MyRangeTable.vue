@@ -1,6 +1,15 @@
 <template>
   <section class="my-range-table p-2">
     <div class="container">
+      <div v-if="store.currentMZone.strategy.positionPower" class="tags mb-2">
+        <span class="tag is-link">UTG</span>
+        <span class="tag is-success">MP</span>
+        <span class="tag is-warning">LP</span>
+      </div>
+      <div v-else class="tags mb-2">
+        <span class="tag is-link">PUSH</span>
+        <span class="tag is-success">CALL</span>
+      </div>
       <table
         class="table is-fullwidth is-bordered is-narrow is-hoverable my-range-table__table"
       >
@@ -39,7 +48,7 @@ import { cards } from "@/helpers/lib";
 import { getPositionClassName, getActionClassName } from "@/helpers/calc";
 import { useAppStore } from "@/store";
 import { computed } from "vue";
-import { Position, type Hand } from "@/types/all";
+import { type Hand } from "@/types/all";
 
 const store = useAppStore();
 

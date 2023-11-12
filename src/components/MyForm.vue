@@ -38,7 +38,12 @@
             <div class="field">
               <label class="label">Стек</label>
               <div class="control">
-                <input v-model="store.stack" class="input" type="number" />
+                <input
+                  v-model="store.stack"
+                  class="input"
+                  type="number"
+                  min="0"
+                />
               </div>
             </div>
           </div>
@@ -46,7 +51,12 @@
             <div class="field">
               <label class="label">ББ</label>
               <div class="control">
-                <input v-model="store.bigBlind" class="input" type="number" />
+                <input
+                  v-model="store.bigBlind"
+                  class="input"
+                  type="number"
+                  min="0"
+                />
               </div>
             </div>
           </div>
@@ -54,7 +64,12 @@
             <div class="field">
               <label class="label">Анте</label>
               <div class="control">
-                <input v-model="store.ante" class="input" type="number" />
+                <input
+                  v-model="store.ante"
+                  class="input"
+                  type="number"
+                  min="0"
+                />
               </div>
             </div>
           </div>
@@ -66,6 +81,7 @@
                   v-model="store.playersNumber"
                   class="input"
                   type="number"
+                  max="10"
                 />
               </div>
             </div>
