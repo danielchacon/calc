@@ -1,6 +1,7 @@
 <template>
   <section class="p-2">
     <div class="container">
+      <div>Действия: {{ actionList.map((item) => item).join(", ") }}</div>
       <table class="table">
         <thead>
           <tr>
@@ -31,6 +32,7 @@ import {
   getActionClassName,
 } from "@/helpers/calc";
 import { computed } from "vue";
+import { ActionName, ZoneName } from "@/types/all";
 
 const store = useAppStore();
 
@@ -68,5 +70,24 @@ const mValueClass = computed<string>(() => {
   const currentZone = store.currentMZone;
 
   return getZoneClassName(currentZone.name);
+});
+
+const actionList = computed<string[]>(() => {
+  let list: string[] = [];
+  const currentZone = store.currentMZone;
+
+  if (currentZone.name === ZoneName.GREEN) {
+    list = [ActionName.CALL, ActionName.RAISE, ActionName.THREE_BET];
+  } else if (currentZone.name === ZoneName.YELLOW) {
+    list = [ActionName.CALL, ActionName.RAISE];
+  } else if (currentZone.name === ZoneName.ORANGE) {
+    list = [ActionName.RAISE, ActionName.PUSH];
+  } else if (currentZone.name === ZoneName.RED) {
+    list = [ActionName.CALL, ActionName.PUSH];
+  } else if (currentZone.name === ZoneName.DEAD) {
+    list = [ActionName.PUSH];
+  }
+
+  return list;
 });
 </script>

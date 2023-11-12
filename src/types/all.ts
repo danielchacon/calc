@@ -18,10 +18,11 @@ export enum Position {
 }
 
 export enum ActionName {
-  FOLD = "fold",
-  CALL = "call",
-  RAISE = "raise",
-  PUSH = "push",
+  FOLD = "Fold",
+  CALL = "Call",
+  RAISE = "Raise",
+  THREE_BET = "3-bet",
+  PUSH = "Push",
 }
 
 export interface PositionPower {

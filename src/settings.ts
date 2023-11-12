@@ -17,7 +17,7 @@ export const settings: Settings = {
           },
           {
             position: Position.LP,
-            minHandPower: 5,
+            minHandPower: 4.5,
           },
         ],
       },
@@ -29,7 +29,7 @@ export const settings: Settings = {
         positionPower: [
           {
             position: Position.UTG,
-            minHandPower: 8,
+            minHandPower: 7.5,
           },
           {
             position: Position.MP,
@@ -37,7 +37,7 @@ export const settings: Settings = {
           },
           {
             position: Position.LP,
-            minHandPower: 4,
+            minHandPower: 5,
           },
         ],
       },
@@ -49,7 +49,7 @@ export const settings: Settings = {
         positionPower: [
           {
             position: Position.UTG,
-            minHandPower: 8,
+            minHandPower: 7.5,
           },
           {
             position: Position.MP,
@@ -57,7 +57,7 @@ export const settings: Settings = {
           },
           {
             position: Position.LP,
-            minHandPower: 4,
+            minHandPower: 4.5,
           },
         ],
       },
