@@ -17,9 +17,25 @@ export enum Position {
   LP = "LP",
 }
 
-export interface Range {
-  min: number;
-  max: number;
-  class: string;
+export interface PositionPower {
   position: Position;
+  minHandPower: number;
+}
+
+export interface Zone {
+  name: ZoneName;
+  isInTheZone: (mValue: number) => boolean;
+  positionPower: PositionPower[];
+}
+
+export interface Settings {
+  zones: Zone[];
+}
+
+export enum ZoneName {
+  GREEN = "green",
+  YELLOW = "yellow",
+  ORANGE = "orange",
+  RED = "red",
+  DEAD = "dead",
 }

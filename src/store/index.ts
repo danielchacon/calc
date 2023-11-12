@@ -1,18 +1,16 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
-import { cards } from "@/helpers/lib";
-import { type Card, type Hand, type Range, Position } from "@/types/all";
+import { cards, settings } from "@/helpers/lib";
+import {
+  type Card,
+  type Hand,
+  type Zone,
+  type PositionPower,
+  Position,
+} from "@/types/all";
 import { getPower } from "@/helpers/calc";
 
 export const useAppStore = defineStore("app", () => {
-  const MIN_POWER = 5;
-  const MAX_POWER = 20;
-  const POSITION_TO_PERCENTAGE = {
-    UTG: 0.75,
-    MP: 0.125,
-    LP: 0.125,
-  };
-
   const firstCard = ref<Card>(cards[0]);
   const secondCard = ref<Card>(cards[0]);
   const isSuited = ref<boolean>(false);
@@ -53,57 +51,24 @@ export const useAppStore = defineStore("app", () => {
       }`
   );
 
-  const currentHandPower = computed<number>(() => {
-    const hand = allHands.value.find(
-      (hand) => hand.name === currentHandName.value
-    );
+  const currentHand = computed<Hand | undefined>(() =>
+    allHands.value.find((hand) => hand.name === currentHandName.value)
+  );
 
-    return hand?.power || 0;
-  });
+  const currentMZone = computed<Zone>(
+    () =>
+      settings.zones.find((zone) => zone.isInTheZone(mValue.value)) ||
+      settings.zones[0]
+  );
 
-  const minPower = computed<number>(() => {
-    return MIN_POWER;
-  });
-
-  const positionRanges = computed<Range[]>(() => {
-    const difference = MAX_POWER - minPower.value;
-
-    const UTG = {
-      min: MAX_POWER - difference * POSITION_TO_PERCENTAGE.UTG,
-      max: MAX_POWER,
-      class: "has-text-white has-background-info-dark",
-      position: Position.UTG,
-    };
-
-    const MP = {
-      min: UTG.min - difference * POSITION_TO_PERCENTAGE.MP,
-      max: UTG.min,
-      class: "has-text-white has-background-success-dark",
-      position: Position.MP,
-    };
-
-    const LP = {
-      min: MP.min - difference * POSITION_TO_PERCENTAGE.LP,
-      max: MP.min,
-      class: "has-text-white has-background-primary-dark",
-      position: Position.LP,
-    };
-
-    return [UTG, MP, LP];
-  });
-
-  const handsToRange = computed(() => {
+  const handToPositionPower = computed<Map<string, PositionPower>>(() => {
     const map = new Map();
 
     for (const hand of allHands.value) {
       map.set(
         hand.name,
-        positionRanges.value.find(
-          (range) =>
-            hand.power >= range.min &&
-            (range.max === MAX_POWER
-              ? hand.power <= range.max
-              : hand.power < range.max)
+        currentMZone.value.positionPower.find(
+          (positionPowerItem) => hand.power >= positionPowerItem.minHandPower
         )
       );
     }
@@ -160,7 +125,7 @@ export const useAppStore = defineStore("app", () => {
     firstCard,
     secondCard,
     isSuited,
-    currentHandPower,
+    currentHand,
     stack,
     bigBlind,
     ante,
@@ -168,8 +133,8 @@ export const useAppStore = defineStore("app", () => {
     allHands,
     mValue,
     position,
-    handsToRange,
-    positionRanges,
+    handToPositionPower,
+    currentMZone,
     UPDATE_IS_SUITED,
     INIT_ALL_HANDS,
   };

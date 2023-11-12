@@ -1,4 +1,4 @@
-import { type Card } from "@/types/all";
+import { type Card, Position, ZoneName } from "@/types/all";
 
 export const getPower = (
   firstCard: Card,
@@ -55,4 +55,32 @@ export const getPower = (
   }
 
   return power;
+};
+
+export const getPositionClassName = (position: Position): string => {
+  if (position === Position.UTG) {
+    return "has-text-white has-background-link";
+  } else if (position === Position.MP) {
+    return "has-text-white has-background-success";
+  } else if (position === Position.LP) {
+    return "has-background-warning";
+  }
+
+  return "";
+};
+
+export const getZoneClassName = (zoneName: ZoneName): string => {
+  if (zoneName === ZoneName.GREEN) {
+    return "has-text-white has-background-success";
+  } else if (zoneName === ZoneName.YELLOW) {
+    return " has-background-warning";
+  } else if (zoneName === ZoneName.ORANGE) {
+    return "has-text-white has-background-warning-dark";
+  } else if (zoneName === ZoneName.RED) {
+    return "has-text-white has-background-danger-dark";
+  } else if (zoneName === ZoneName.DEAD) {
+    return "has-background-grey-light";
+  }
+
+  return "";
 };

@@ -10,8 +10,12 @@
         </thead>
         <tbody>
           <tr>
-            <td class="is-size-4">{{ store.currentHandPower }}</td>
-            <td class="is-size-4">{{ store.mValue }}</td>
+            <td :class="['is-size-4', 'has-text-centered', powerResultClass]">
+              {{ store.currentHand?.power }}
+            </td>
+            <td :class="['is-size-4', 'has-text-centered', mValueClass]">
+              {{ store.mValue }}
+            </td>
           </tr>
         </tbody>
       </table>
@@ -21,6 +25,26 @@
 
 <script setup lang="ts">
 import { useAppStore } from "@/store/index";
+import { getPositionClassName, getZoneClassName } from "@/helpers/calc";
+import { computed } from "vue";
 
 const store = useAppStore();
+
+const powerResultClass = computed<string>(() => {
+  if (!store.currentHand) return "";
+
+  const handToPositionPower = store.handToPositionPower.get(
+    store.currentHand.name
+  );
+
+  return handToPositionPower
+    ? getPositionClassName(handToPositionPower.position)
+    : "";
+});
+
+const mValueClass = computed<string>(() => {
+  const currentZone = store.currentMZone;
+
+  return getZoneClassName(currentZone.name);
+});
 </script>

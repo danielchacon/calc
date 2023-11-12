@@ -22,10 +22,7 @@
             <td
               v-for="hand in tableReadyHands?.[firstCard.name]"
               :key="`range-td-${hand.name}`"
-              :class="[
-                'has-text-centered',
-                store.handsToRange.get(hand.name)?.class,
-              ]"
+              :class="['has-text-centered', hand.positionClass]"
             >
               <div class="has-text-weight-bold">{{ hand.name }}</div>
               <div>{{ hand.power }}</div>
@@ -39,18 +36,23 @@
 
 <script setup lang="ts">
 import { cards } from "@/helpers/lib";
+import { getPositionClassName } from "@/helpers/calc";
 import { useAppStore } from "@/store";
 import { computed } from "vue";
-import { type Hand } from "@/types/all";
+import { Position, type Hand } from "@/types/all";
 
 const store = useAppStore();
 
+interface TableHand extends Hand {
+  positionClass: string;
+}
+
 const tableReadyHands = computed(() => {
-  const hands: Record<string, Hand[]> = {};
+  const hands: Record<string, TableHand[]> = {};
 
   for (const firstCard of cards) {
     for (const secondCard of cards) {
-      const hand = store.allHands.find((hand) => {
+      const hand: Hand | undefined = store.allHands.find((hand) => {
         return secondCard.name === firstCard.name
           ? hand.cards.every((card) => card.name === firstCard.name)
           : hand.isSuited ===
@@ -59,12 +61,27 @@ const tableReadyHands = computed(() => {
               hand.cards.some((card) => card.name === secondCard.name);
       });
 
-      if (!hand) return;
+      if (!hand || !hand.name) return;
+
+      const handToPositionPower = store.handToPositionPower.get(hand.name);
+
+      const tableHand: TableHand = {
+        ...hand,
+        positionClass: handToPositionPower
+          ? `${
+              [Position.UTG, Position.MP].some(
+                (item) => item === handToPositionPower.position
+              )
+                ? "has-text-white"
+                : ""
+            } ${getPositionClassName(handToPositionPower.position)}`
+          : "",
+      };
 
       if (hands[firstCard.name]) {
-        hands[firstCard.name].push(hand);
+        hands[firstCard.name].push(tableHand);
       } else {
-        hands[firstCard.name] = [hand];
+        hands[firstCard.name] = [tableHand];
       }
     }
   }
