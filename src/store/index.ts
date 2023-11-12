@@ -15,7 +15,7 @@ export const useAppStore = defineStore("app", () => {
   const firstCard = ref<Card>(cards[0]);
   const secondCard = ref<Card>(cards[0]);
   const isSuited = ref<boolean>(false);
-  const stack = ref<number>(500);
+  const stack = ref<number>(2500);
   const bigBlind = ref<number>(50);
   const ante = ref<number>(0);
   const playersNumber = ref<number>(8);

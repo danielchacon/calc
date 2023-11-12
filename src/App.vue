@@ -5,6 +5,7 @@
 </template>
 
 <script setup lang="ts">
+import "@mdi/font/css/materialdesignicons.css";
 import MyForm from "@/components/MyForm.vue";
 import MyResults from "@/components/MyResults.vue";
 import MyRangeTable from "@/components/MyRangeTable.vue";

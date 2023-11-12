@@ -1,15 +1,21 @@
 <template>
   <section class="my-range-table p-2">
     <div class="container">
-      <div v-if="store.currentMZone.strategy.positionPower" class="tags mb-2">
-        <span class="tag is-link">UTG</span>
-        <span class="tag is-success">MP</span>
-        <span class="tag is-warning">LP</span>
+      <div class="is-flex is-justify-content-space-between">
+        <div v-if="store.currentMZone.strategy.positionPower" class="tags mb-2">
+          <span class="tag is-link">UTG</span>
+          <span class="tag is-success">MP</span>
+          <span class="tag is-warning">LP</span>
+        </div>
+        <div v-else class="tags mb-2">
+          <span class="tag is-link">PUSH</span>
+          <span class="tag is-success">CALL</span>
+        </div>
+        <div class="has-text-weight-semibold">
+          {{ actionList.map((item) => item).join(" / ") }}
+        </div>
       </div>
-      <div v-else class="tags mb-2">
-        <span class="tag is-link">PUSH</span>
-        <span class="tag is-success">CALL</span>
-      </div>
+
       <table
         class="table is-fullwidth is-bordered is-narrow is-hoverable my-range-table__table"
       >
@@ -48,7 +54,7 @@ import { cards } from "@/helpers/lib";
 import { getPositionClassName, getActionClassName } from "@/helpers/calc";
 import { useAppStore } from "@/store";
 import { computed } from "vue";
-import { type Hand } from "@/types/all";
+import { type Hand, ActionName, ZoneName } from "@/types/all";
 
 const store = useAppStore();
 
@@ -102,6 +108,25 @@ const tableReadyHands = computed(() => {
   }
 
   return hands;
+});
+
+const actionList = computed<string[]>(() => {
+  let list: string[] = [];
+  const currentZone = store.currentMZone;
+
+  if (currentZone.name === ZoneName.GREEN) {
+    list = [ActionName.CALL, ActionName.RAISE, ActionName.THREE_BET];
+  } else if (currentZone.name === ZoneName.YELLOW) {
+    list = [ActionName.CALL, ActionName.RAISE];
+  } else if (currentZone.name === ZoneName.ORANGE) {
+    list = [ActionName.RAISE, ActionName.PUSH];
+  } else if (currentZone.name === ZoneName.RED) {
+    list = [ActionName.CALL, ActionName.PUSH];
+  } else if (currentZone.name === ZoneName.DEAD) {
+    list = [ActionName.PUSH];
+  }
+
+  return list;
 });
 </script>
 

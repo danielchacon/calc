@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@mdi/font": "^7.3.67",
     "bulma": "^0.9.4",
     "core-js": "^3.8.3",
     "pinia": "^2.1.4",
