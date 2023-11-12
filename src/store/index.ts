@@ -65,7 +65,7 @@ export const useAppStore = defineStore("app", () => {
     for (const hand of allHands.value) {
       map.set(
         hand.name,
-        currentMZone.value.positionPower.find(
+        currentMZone.value.positionPower?.find(
           (positionPowerItem) => hand.power >= positionPowerItem.minHandPower
         )
       );

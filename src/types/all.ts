@@ -25,7 +25,7 @@ export interface PositionPower {
 export interface Zone {
   name: ZoneName;
   isInTheZone: (mValue: number) => boolean;
-  positionPower: PositionPower[];
+  positionPower?: PositionPower[];
 }
 
 export interface Settings {

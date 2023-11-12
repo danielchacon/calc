@@ -127,38 +127,10 @@ export const settings: Settings = {
     {
       name: ZoneName.RED,
       isInTheZone: (mValue: number) => mValue >= 1 && mValue < 6,
-      positionPower: [
-        {
-          position: Position.UTG,
-          minHandPower: 8,
-        },
-        {
-          position: Position.MP,
-          minHandPower: 6,
-        },
-        {
-          position: Position.LP,
-          minHandPower: 4,
-        },
-      ],
     },
     {
       name: ZoneName.DEAD,
       isInTheZone: (mValue: number) => mValue < 1,
-      positionPower: [
-        {
-          position: Position.UTG,
-          minHandPower: 8,
-        },
-        {
-          position: Position.MP,
-          minHandPower: 6,
-        },
-        {
-          position: Position.LP,
-          minHandPower: 4,
-        },
-      ],
     },
   ],
 };
