@@ -26,6 +26,7 @@
             </select>
           </div>
           <button
+            v-show="store.firstCard.name !== store.secondCard.name"
             :class="['button', 'is-primary', { 'is-light': !store.isSuited }]"
             type="button"
             @click="onSuitedButtonClick"
