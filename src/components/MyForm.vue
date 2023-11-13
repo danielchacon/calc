@@ -33,39 +33,39 @@
             Одномастные
           </button>
         </div>
-        <FieldWithControls
-          class="my-form__field is-flex-grow-1 is-flex-shrink-1 mb-2"
-          v-model:model-value="store.stack"
-          icon-class="mdi mdi-poker-chip"
-          :min="0"
-          :step="50"
-          placeholder="Стек"
-        />
-        <FieldWithControls
-          class="my-form__field is-flex-grow-1 is-flex-shrink-1 mb-2"
-          v-model:model-value="store.bigBlind"
-          icon-class="mdi mdi-alpha-b-circle"
-          :min="0"
-          :step="50"
-          placeholder="ББ"
-        />
-        <FieldWithControls
-          class="my-form__field is-flex-grow-1 is-flex-shrink-1 mb-2"
-          v-model:model-value="store.ante"
-          icon-class="mdi mdi-cash-clock"
-          :min="0"
-          :step="50"
-          placeholder="Анте"
-        />
-        <FieldWithControls
-          class="my-form__field is-flex-grow-1 is-flex-shrink-1"
-          v-model:model-value="store.playersNumber"
-          icon-class="mdi mdi-account-multiple"
-          :min="0"
-          :max="10"
-          :step="1"
-          placeholder="Игроков"
-        />
+        <div class="is-flex mb-2">
+          <FieldWithControls
+            class="my-form__field is-flex-grow-1 is-flex-shrink-1 pr-1"
+            v-model:model-value="store.stack"
+            :min="0"
+            :step="50"
+            label="Стек"
+          />
+          <FieldWithControls
+            class="my-form__field is-flex-grow-1 is-flex-shrink-1 pl-1"
+            v-model:model-value="store.bigBlind"
+            :min="0"
+            :step="50"
+            label="ББ"
+          />
+        </div>
+        <div class="is-flex">
+          <FieldWithControls
+            class="my-form__field is-flex-grow-1 is-flex-shrink-1 pr-1"
+            v-model:model-value="store.ante"
+            :min="0"
+            :step="50"
+            label="Анте"
+          />
+          <FieldWithControls
+            class="my-form__field is-flex-grow-1 is-flex-shrink-1 pl-1"
+            v-model:model-value="store.playersNumber"
+            :min="0"
+            :max="10"
+            :step="1"
+            label="Игроков"
+          />
+        </div>
       </div>
     </div>
   </section>
