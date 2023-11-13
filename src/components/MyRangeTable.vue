@@ -11,7 +11,10 @@
           <span class="tag is-link">PUSH</span>
           <span class="tag is-success">CALL</span>
         </div>
-        <div class="has-text-weight-semibold">
+        <div
+          v-if="store.currentMZone.strategy.positionPower"
+          class="has-text-weight-semibold"
+        >
           {{ actionList.map((item) => item).join(" / ") }}
         </div>
       </div>
