@@ -37,17 +37,17 @@
         <div class="is-flex mb-2">
           <FieldWithControls
             class="my-form__field is-flex-grow-1 is-flex-shrink-1 pr-1"
-            v-model:model-value="store.stack"
-            :min="0"
-            :step="50"
-            label="Стек"
-          />
-          <FieldWithControls
-            class="my-form__field is-flex-grow-1 is-flex-shrink-1 pl-1"
             v-model:model-value="store.bigBlind"
             :min="0"
             :step="50"
             label="ББ"
+          />
+          <FieldWithControls
+            class="my-form__field is-flex-grow-1 is-flex-shrink-1 pl-1"
+            v-model:model-value="store.stack"
+            :min="0"
+            :step="store.bigBlind"
+            label="Стек"
           />
         </div>
         <div class="is-flex">

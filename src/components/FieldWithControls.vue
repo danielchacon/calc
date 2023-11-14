@@ -59,7 +59,7 @@ const emits = defineEmits<{
   (e: "update:modelValue", value: number): void;
 }>();
 
-const currentStep = props.step ? props.step : 1;
+const currentStep = computed(() => (props.step ? props.step : 1));
 
 const isMin = computed(() => {
   return props.min !== undefined && props.modelValue === props.min;
@@ -78,10 +78,10 @@ const onInputChange = (event: Event) => {
 };
 
 const decrease = () => {
-  emits("update:modelValue", props.modelValue - currentStep);
+  emits("update:modelValue", props.modelValue - currentStep.value);
 };
 
 const increase = () => {
-  emits("update:modelValue", props.modelValue + currentStep);
+  emits("update:modelValue", props.modelValue + currentStep.value);
 };
 </script>
